@@ -51,5 +51,13 @@ public class PointCP3 {
     public double getTheta() {
         return yOrTheta;
     }
+
+    public void convertStorageToPolar(){
+        return;
+    }
+
+    public void convertStoragetoCartesian(){
+        return;
+    }
 }
 

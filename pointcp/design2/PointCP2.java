@@ -46,7 +46,7 @@ public class PointCP2 {
         return Theta;
     }
 
-    // Not sure if we need these yet
+    // Not sure if we need these yet - Points are stored, but aren't computed or are just returned
     public void convertStorageToPolar(){
         return;
     }
