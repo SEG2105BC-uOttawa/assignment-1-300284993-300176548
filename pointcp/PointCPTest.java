@@ -42,7 +42,7 @@ public class PointCPTest
     // If he did not, prompt the user for them.
     try
     {
-      point = new PointCP(args[0].toUpperCase().charAt(0), 
+      point = new PointCP(args[0].toUpperCase().charAt(0),
         Double.valueOf(args[1]).doubleValue(), 
         Double.valueOf(args[2]).doubleValue());
     }

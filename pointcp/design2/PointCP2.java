@@ -1,9 +1,10 @@
 package design2;
 
-public class PointCP2 {
+import design5.PointCPgeneral;
+
+public class PointCP2 extends PointCPgeneral {
     //Instance variables ************************************************
 
-    private char typeCoord;
 
     private double Rho;
 
@@ -15,17 +16,10 @@ public class PointCP2 {
     /**
      * Constructs a coordinate object, with a type identifier.
      */
-    public PointCP2(char type, double Rho, double Theta) {
-        if (type != 'C' && type != 'P')
-            throw new IllegalArgumentException();
-        this.typeCoord = type;
-        if (this.typeCoord == 'C') {
-            this.Rho = (Math.sqrt(Math.pow(Rho, 2) + Math.pow(Theta, 2)));
-            this.Theta = Math.toDegrees(Math.atan2(Theta, Rho));
-        } else {
+    public PointCP2(double Rho, double Theta) {
+
             this.Rho = Rho;
             this.Theta = Theta;
-        }
 
     }
 
@@ -46,41 +40,31 @@ public class PointCP2 {
         return Theta;
     }
 
-    // Not sure if we need these yet - Points are stored, but aren't computed or are just returned
-    public void convertStorageToPolar(){
-        return;
+    // Couple methods copy and pasted from PointCP
+   public double getDistance(PointCPgeneral point) {
+        if (point instanceof PointCP2) {
+            PointCP2 pointnew = (PointCP2) point;
+            double deltaX = getX() - pointnew.getX();
+            double deltaY = getY() - pointnew.getY();
+            return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+        } else {
+            throw new IllegalArgumentException("Incompatible PointCPgeneral type");
+        }
     }
-
-    public void convertStoragetoCartesian(){
-        return;
-    }
-
-
-    // Couple methods copy pasted from PointCP
-    public double getDistance(PointCP2 pointB) {
-        // Obtain differences in X and Y, sign is not important as these values
-        // will be squared later.
-        double deltaX = getX() - pointB.getX();
-        double deltaY = getY() - pointB.getY();
-
-        return Math.sqrt((Math.pow(deltaX, 2) + Math.pow(deltaY, 2)));
-    }
-
     public PointCP2 rotatePoint(double rotation)
     {
         double radRotation = Math.toRadians(rotation);
         double X = getX();
         double Y = getY();
 
-        return new PointCP2('C',
-                (Math.cos(radRotation) * X) - (Math.sin(radRotation) * Y),
+        return new PointCP2(   (Math.cos(radRotation) * X) - (Math.sin(radRotation) * Y),
                 (Math.sin(radRotation) * X) + (Math.cos(radRotation) * Y));
     }
 
+
     // Returns information
     public String toString(){
-        return "Stored polar coordinates are (" + getTheta() + "," + getRho() + ")\n" +
-                "Computer cartesian coordinates are ("+getX()+", "+getY()+")";
+        return "Stored polar coordinates are (" + getTheta() + "," + getRho() + ")";
     }
 
 }

@@ -1,63 +1,70 @@
 package design3;
 
 
-public class PointCP3 {
+import design5.PointCPgeneral;
+
+public class PointCP3 extends PointCPgeneral {
     //Instance variables ************************************************
 
-    /**
-     * Contains C(artesian) or P(olar) to identify the type of
-     * coordinates that are being dealt with.
-     */
-    private char typeCoord;
 
     /**
-     * Contains the current value of X or RHO depending on the type
-     * of coordinates.
+     * Contains the current value of X.
      */
-    private double xOrRho;
+    private double x;
 
     /**
-     * Contains the current value of Y or THETA value depending on the
-     * type of coordinates.
+     * Contains the current value of Y.
      */
-    private double yOrTheta;
+    private double y;
 
-    public PointCP3(char type, double xOrRho, double yOrTheta) {
-        if (type != 'C' && type != 'P')
-            throw new IllegalArgumentException();
-        this.typeCoord = type;
-        this.xOrRho = xOrRho;
-        this.yOrTheta = yOrTheta;
+
+    public PointCP3(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public double getX(){
-        if(typeCoord == 'C'){
-            return xOrRho;
-        } else{
-            return (Math.cos(Math.toRadians(yOrTheta))*xOrRho);
-        }
+    public double getX() {
+        return x;
     }
 
-    public double getY(){
-        if(typeCoord == 'C'){
-            return yOrTheta;
-        } else {
-            return (Math.sin(Math.toRadians(yOrTheta))*xOrRho);
-        }
+    public double getY() {
+        return y;
     }
 
-    public double getRho() {return xOrRho;}
+    public double getRho() {
+
+        return (Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
+    }
 
     public double getTheta() {
-        return yOrTheta;
+        return Math.toDegrees(Math.atan2(y, x));
     }
 
-    public void convertStorageToPolar(){
-        return;
+  public double getDistance(PointCPgeneral point) {
+        if (point instanceof PointCP3) {
+            PointCP3 pointnew = (PointCP3) point;
+            double deltaX = getX() - pointnew.getX();
+            double deltaY = getY() - pointnew.getY();
+            return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+        } else {
+            throw new IllegalArgumentException("Incompatible PointCPgeneral type");
+        }
+    }
+    public PointCP3 rotatePoint(double rotation)
+    {
+        double radRotation = Math.toRadians(rotation);
+        double X = getX();
+        double Y = getY();
+
+        return new PointCP3(  (Math.cos(radRotation) * X) - (Math.sin(radRotation) * Y),
+                (Math.sin(radRotation) * X) + (Math.cos(radRotation) * Y));
     }
 
-    public void convertStoragetoCartesian(){
-        return;
+    // Returns information
+    public String toString(){
+        return "Stored Computer cartesian coordinates are ("+getX()+", "+getY()+")";
     }
 }
+
+
 
