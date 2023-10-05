@@ -41,30 +41,18 @@ public class PointCP2 extends PointCPgeneral {
     }
 
     // Couple methods copy and pasted from PointCP
-   public double getDistance(PointCPgeneral point) {
-        if (point instanceof PointCP2) {
-            PointCP2 pointnew = (PointCP2) point;
-            double deltaX = getX() - pointnew.getX();
-            double deltaY = getY() - pointnew.getY();
-            return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-        } else {
-            throw new IllegalArgumentException("Incompatible PointCPgeneral type");
-        }
-    }
+
     public PointCP2 rotatePoint(double rotation)
     {
         double radRotation = Math.toRadians(rotation);
-        double X = getX();
-        double Y = getY();
-
-        return new PointCP2(   (Math.cos(radRotation) * X) - (Math.sin(radRotation) * Y),
-                (Math.sin(radRotation) * X) + (Math.cos(radRotation) * Y));
+        return new PointCP2(   Rho,  Theta+radRotation);
     }
+
 
 
     // Returns information
     public String toString(){
-        return "Stored polar coordinates are (" + getTheta() + "," + getRho() + ")";
+        return "Stored polar coordinates are (" + getRho() + "," + getTheta() + ")";
     }
 
 }

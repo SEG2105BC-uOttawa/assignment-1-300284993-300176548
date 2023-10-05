@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Part2 {
     public static void main(String[] args){
-        int size = (int) Math.pow(2.0, 28.0); // Highest number my VM can handle
+        int size = (int) Math.pow(2.0, 27.0); // Highest number my VM can handle
 
         int[] array = new int[size];
         Vector<Integer> vector = new Vector<Integer>();

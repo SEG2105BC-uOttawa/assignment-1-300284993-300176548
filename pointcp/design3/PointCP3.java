@@ -5,8 +5,6 @@ import design5.PointCPgeneral;
 
 public class PointCP3 extends PointCPgeneral {
     //Instance variables ************************************************
-
-
     /**
      * Contains the current value of X.
      */
@@ -16,7 +14,6 @@ public class PointCP3 extends PointCPgeneral {
      * Contains the current value of Y.
      */
     private double y;
-
 
     public PointCP3(double x, double y) {
         this.x = x;
@@ -40,16 +37,6 @@ public class PointCP3 extends PointCPgeneral {
         return Math.toDegrees(Math.atan2(y, x));
     }
 
-  public double getDistance(PointCPgeneral point) {
-        if (point instanceof PointCP3) {
-            PointCP3 pointnew = (PointCP3) point;
-            double deltaX = getX() - pointnew.getX();
-            double deltaY = getY() - pointnew.getY();
-            return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-        } else {
-            throw new IllegalArgumentException("Incompatible PointCPgeneral type");
-        }
-    }
     public PointCP3 rotatePoint(double rotation)
     {
         double radRotation = Math.toRadians(rotation);
@@ -62,7 +49,7 @@ public class PointCP3 extends PointCPgeneral {
 
     // Returns information
     public String toString(){
-        return "Stored Computer cartesian coordinates are ("+getX()+", "+getY()+")";
+        return "Stored Cartesian coordinates are ("+getX()+", "+getY()+")";
     }
 }
 

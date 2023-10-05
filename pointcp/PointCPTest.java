@@ -2,6 +2,9 @@
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at http://www.site.uottawa.ca/school/research/lloseng/
 
+import design2.PointCP2;
+import design3.PointCP3;
+
 import java.io.*;
 
 /**
@@ -34,17 +37,19 @@ public class PointCPTest
   public static void main(String[] args)
   {
     PointCP point;
-
+    PointCP2 point2;
     System.out.println("Cartesian-Polar Coordinates Conversion Program");
 
     // Check if the user input coordinates from the command line
     // If he did, create the PointCP object from these arguments.
     // If he did not, prompt the user for them.
+    System.out.println("\n*******************************Design 1*******************************************");
     try
     {
       point = new PointCP(args[0].toUpperCase().charAt(0),
         Double.valueOf(args[1]).doubleValue(), 
         Double.valueOf(args[2]).doubleValue());
+
     }
     catch(Exception e)
     {
@@ -63,12 +68,45 @@ public class PointCPTest
         return;
       }
     }
+    long startTime = System.nanoTime();
     System.out.println("\nYou entered:\n" + point);
     point.convertStorageToCartesian();
     System.out.println("\nAfter asking to store as Cartesian:\n" + point);
     point.convertStorageToPolar();
     System.out.println("\nAfter asking to store as Polar:\n" + point);
-  }
+    long endTime = System.nanoTime();
+    long constructionTime = endTime - startTime;
+    System.out.println("\nThe performance of the Design1 shows a construction time of " + constructionTime + " nanoseconds.");
+
+    System.out.println("\n*******************************Design 5*******************************************");
+    try
+      {
+        point2 = getInputCP2();
+      }
+      catch(IOException ex)
+      {
+        System.out.println("Error getting input. Ending program.");
+        return;
+      }
+    long startTime2 = System.nanoTime();
+    System.out.println("\nYou entered:\n" + point2);
+    PointCP3 point3 = new PointCP3(point2.getX(), point2.getY());
+    System.out.println("\nAfter asking to create a now point stored as Cartesian:\n" + point3);
+    PointCP2 point4 = new PointCP2(point3.getRho(),point3.getTheta());
+    System.out.println("\nAfter asking to create a now point (again) stored as Polar:\n" + point4 );
+    long endTime2 = System.nanoTime();
+    long constructionTimeDesign5 = endTime2 - startTime2;
+    System.out.println("\nThe performance of the Design5 shows a construction time of " + constructionTimeDesign5 + " nanoseconds.");
+
+    System.out.println("ANALYZING....");
+    System.out.println("...");
+    if (constructionTime>constructionTimeDesign5) {
+      System.out.println("Turns out Design 5 is a better design in an efficient manner.");
+    }
+    else{
+      System.out.println("Turns out Design 1 is a better design in an efficient manner.");
+    }
+  } 
 
   /**
    * This method obtains input from the user and verifies that
@@ -80,6 +118,8 @@ public class PointCPTest
    * @throws IOException If there is an error getting input from
    *         the user.
    */
+
+
   private static PointCP getInput() throws IOException
   {
     byte[] buffer = new byte[1024];  //Buffer to hold byte input
@@ -159,5 +199,61 @@ public class PointCPTest
     }
     //Return a new PointCP object
     return (new PointCP(coordType, a, b));
+  }
+   private static PointCP2 getInputCP2() throws IOException
+  {
+    byte[] buffer = new byte[1024];  //Buffer to hold byte input
+    boolean isOK = false;  // Flag set if input correct
+    String theInput = "";  // Input information
+
+    //Information to be passed to the constructor
+
+    double a = 0.0;
+    double b = 0.0;
+
+    // Allow the user to enter the three different arguments
+    for (int i = 0; i < 2; i++)
+    {
+      while (!(isOK))
+      {
+        isOK = true;  //flag set to true assuming input will be valid
+        if (i == 0) // First argument - type of coordinates
+        {
+          System.out.println("Enter the Rho using a decimal point(.): ");
+        }
+        else // Second and third arguments
+        {
+          System.out.println("Enter the Theta using a decimal point(.): ");
+        }
+
+        // Initialize the buffer before we read the input
+        for(int k=0; k<1024; k++)
+        	buffer[k] = '\u0020';
+
+        System.in.read(buffer);
+        theInput = new String(buffer).trim();
+
+        // Verify the user's input
+        try
+        {// Second and third arguments
+            //Convert the input to double values
+            if (i == 0)
+              a = Double.valueOf(theInput).doubleValue();
+            else
+              b = Double.valueOf(theInput).doubleValue();
+
+        }
+        catch(Exception e)
+        {
+        	System.out.println("Incorrect input");
+        	isOK = false;  //Reset flag as so not to end while loop
+        }
+      }
+
+      //Reset flag so while loop will prompt for other arguments
+      isOK = false;
+    }
+    //Return a new PointCP object
+    return (new PointCP2(a, b));
   }
 }

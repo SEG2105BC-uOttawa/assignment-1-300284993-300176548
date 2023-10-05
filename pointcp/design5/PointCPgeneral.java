@@ -1,5 +1,4 @@
-package design5;
-
+package design5;//package design5;
 
 
 public abstract class PointCPgeneral {
@@ -15,13 +14,21 @@ public abstract class PointCPgeneral {
 
     public abstract double getY();
 
-
-    // Common implementation for getDistance
-    public abstract double getDistance(PointCPgeneral point);
-
     public abstract PointCPgeneral rotatePoint(double rotation);
 
 
+//    public abstract PointCPgeneral rotatePoint(double rotation);
+
+    // Common implementation for getDistance
+    public double getDistance(PointCPgeneral point) {
+        if (this.getClass() == point.getClass()) {
+            double deltaX = getX() - point.getX();
+            double deltaY = getY() - point.getY();
+            return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+        } else {
+            throw new IllegalArgumentException("Incompatible PointCPgeneral type");
+        }
+    }
 
     // Common method
     @Override
